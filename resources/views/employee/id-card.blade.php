@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container animate__animated animate__zoomIn">
-        <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 85vh;">
             <div class="text-center">
 
                 <div id="id-card" class="bg-white shadow-lg overflow-hidden position-relative mx-auto mb-4"
@@ -49,7 +49,7 @@
 
                     <!-- Footer -->
                     <div class="position-absolute bottom-0 w-100 bg-dark text-white py-3">
-                        <small class="fw-bold letter-spacing-2">DAYFLOW SYSTEMS</small>
+                        <small class="fw-bold letter-spacing-2">WORKHIVE SYSTEMS</small>
                     </div>
                 </div>
 

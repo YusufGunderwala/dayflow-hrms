@@ -1,7 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2 class="fw-bold mb-4">Attendance Records</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">Attendance Records</h2>
+        <form action="{{ route('admin.attendance.index') }}" method="GET" class="d-flex gap-2">
+            <input type="date" name="date" class="form-control" value="{{ $filterDate ?? '' }}">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            @if(isset($filterDate))
+                <a href="{{ route('admin.attendance.index') }}" class="btn btn-outline-secondary">Reset</a>
+            @endif
+        </form>
+    </div>
 
     <div class="card shadow-sm">
         <div class="card-body p-0">

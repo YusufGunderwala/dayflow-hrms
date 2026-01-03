@@ -74,7 +74,7 @@
             <!-- Header -->
             <div class="company-header d-flex justify-content-between align-items-center">
                 <div>
-                    <h2 class="fw-bold text-primary m-0">Dayflow INC.</h2>
+                    <h2 class="fw-bold text-primary m-0">WorkHive INC.</h2>
                     <p class="text-muted small m-0">123 Business Park, Innovation Drive</p>
                     <p class="text-muted small m-0">Mumbai, India - 400001</p>
                 </div>

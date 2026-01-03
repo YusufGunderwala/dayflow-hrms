@@ -13,12 +13,17 @@
                         @method('PUT')
 
                         <div class="row g-3 mb-4">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label class="form-label">Employee ID</label>
+                                <input type="text" class="form-control bg-light fw-bold"
+                                    value="{{ $employee->employee_id }}" readonly>
+                            </div>
+                            <div class="col-md-4">
                                 <label class="form-label">Full Name</label>
                                 <input type="text" name="name" class="form-control" value="{{ $employee->user->name }}"
                                     required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="form-label">Email (Read Only)</label>
                                 <input type="email" class="form-control bg-light" value="{{ $employee->user->email }}"
                                     readonly>

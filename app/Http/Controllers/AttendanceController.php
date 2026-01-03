@@ -10,10 +10,19 @@ use Carbon\Carbon;
 class AttendanceController extends Controller
 {
     // Admin View: All attendance
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
-        $attendances = Attendance::with('user')->latest()->paginate(20);
-        return view('admin.attendance.index', compact('attendances'));
+        $query = Attendance::with('user');
+
+        if ($request->has('date') && $request->date) {
+            $query->where('date', $request->date);
+            $filterDate = $request->date;
+        } else {
+            $filterDate = null;
+        }
+
+        $attendances = $query->latest()->paginate(20);
+        return view('admin.attendance.index', compact('attendances', 'filterDate'));
     }
 
     // Employee View: My attendance

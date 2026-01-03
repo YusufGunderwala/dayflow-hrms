@@ -21,7 +21,7 @@
                         <h2 class="fw-bold mb-0 text-dark display-5">{{ \App\Models\Employee::count() }}</h2>
                     </div>
                     <div class="bg-primary bg-opacity-10 p-3 rounded-circle text-primary">
-                        <i class="fas fa-users fa-lg"></i>
+                        <i class="fas fa-users fa-2x"></i>
                     </div>
                 </div>
                 <div class="position-absolute bottom-0 start-0 w-100 h-100 bg-gradient-primary opacity-5"
@@ -191,9 +191,9 @@
                 labels: ['IT', 'HR', 'Finance', 'Sales'],
                 datasets: [{
                     data: [
-                            {{ \App\Models\Employee::where('department', 'IT')->count() }},
-                            {{ \App\Models\Employee::where('department', 'HR')->count() }},
-                            {{ \App\Models\Employee::where('department', 'Finance')->count() }},
+                                {{ \App\Models\Employee::where('department', 'IT')->count() }},
+                                {{ \App\Models\Employee::where('department', 'HR')->count() }},
+                                {{ \App\Models\Employee::where('department', 'Finance')->count() }},
                         {{ \App\Models\Employee::where('department', 'Sales')->count() }}
                     ],
                     backgroundColor: ['#6366f1', '#ec4899', '#10b981', '#f59e0b'],

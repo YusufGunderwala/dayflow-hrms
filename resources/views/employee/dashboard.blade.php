@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-5 animate__animated animate__fadeInDown">
+    <div
+        class="glass-card mb-5 animate__animated animate__fadeInDown p-4 d-flex justify-content-between align-items-center">
         <div>
             <h2 class="fw-bold text-dark mb-1">My Dashboard</h2>
             <p class="text-muted mb-0">Overview of your activity and performance.</p>
@@ -9,21 +10,21 @@
 
         <div class="d-flex align-items-center gap-3">
             <!-- Unified Time & Announcement Card -->
-            <div class="glass-card px-3 py-2 d-flex align-items-center gap-3">
+            <div class="px-3 py-2 d-flex align-items-center gap-4">
                 {{-- Clock Section --}}
-                <div class="d-flex align-items-center gap-2 border-end pe-3">
-                    <i class="fas fa-clock text-primary"></i>
-                    <span class="fw-bold font-monospace text-dark" id="live-clock">{{ now()->format('H:i:s') }}</span>
+                <div class="d-flex align-items-center gap-3 border-end pe-4">
+                    <i class="fas fa-clock text-secondary fa-2x opacity-50"></i>
+                    <span class="fw-bold font-monospace text-dark fs-4" id="live-clock">{{ now()->format('H:i:s') }}</span>
                 </div>
 
                 {{-- Announcement Section (Latest only) --}}
                 @if(isset($announcements) && $announcements->count() > 0)
                     @php $latest = $announcements->first(); @endphp
-                    <div class="d-flex align-items-center gap-2 animate__animated animate__fadeIn" style="max-width: 400px;">
-                        <i class="fas fa-bullhorn text-warning"></i>
+                    <div class="d-flex align-items-center gap-3 animate__animated animate__fadeIn" style="max-width: 500px;">
+                        <i class="fas fa-bullhorn text-warning fa-2x"></i>
                         <div class="text-truncate">
-                            <span class="fw-bold text-dark">{{ $latest->title }}:</span>
-                            <span class="text-muted small">{{ $latest->content }}</span>
+                            <span class="fw-bold text-dark fs-5">Meeting:</span>
+                            <span class="text-secondary fs-5">{{ $latest->title }}</span>
                         </div>
                     </div>
                 @endif
@@ -34,8 +35,9 @@
 
     <div class="row g-4 mb-5">
         <!-- Attendance Action Card -->
-        <div class="col-md-6 animate__animated animate__fadeInUp delay-100">
-            <div class="glass-card p-5 h-100 text-center position-relative overflow-hidden">
+        <div class="col-md-6 animate__animated animate__fadeInUp delay-100 d-flex flex-column">
+            <div
+                class="glass-card p-4 h-100 text-center position-relative overflow-hidden flex-grow-1 d-flex flex-column justify-content-center">
                 <div class="position-relative z-1">
                     @php
                         $todayAttendance = \App\Models\Attendance::where('user_id', Auth::id())->where('date', \Carbon\Carbon::today())->first();
@@ -51,18 +53,20 @@
                         </div>
                         <form action="{{ route('employee.attendance.checkIn') }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-primary btn-lg w-75 shadow-lg rounded-pill fw-bold btn-grad-primary">
+                            <button type="submit"
+                                class="btn btn-primary btn-lg w-75 shadow-lg rounded-pill fw-bold btn-grad-primary">
                                 <i class="fas fa-sign-in-alt me-2"></i> CHECK IN NOW
                             </button>
                         </form>
-                        
+
                         <style>
                             .btn-grad-primary {
-                                background-image: linear-gradient(to right, #6366f1 0%, #a855f7 51%, #6366f1 100%);
+                                background-image: linear-gradient(to right, #B77466 0%, #E2B59A 51%, #B77466 100%);
                                 transition: 0.5s;
                                 background-size: 200% auto;
                                 border: none;
                             }
+
                             .btn-grad-primary:hover {
                                 background-position: right center;
                             }
@@ -77,11 +81,13 @@
                             @endphp
 
                             <div class="position-relative d-inline-block mb-3">
-                                <div class="bg-warning bg-opacity-10 p-4 rounded-circle text-warning {{ $isOvertime ? 'animate__animated animate__pulse animate__infinite' : '' }} {{ $isLate ? 'shake-icon' : '' }}">
+                                <div
+                                    class="bg-warning bg-opacity-10 p-4 rounded-circle text-warning {{ $isOvertime ? 'animate__animated animate__pulse animate__infinite' : '' }} {{ $isLate ? 'shake-icon' : '' }}">
                                     <i class="fas {{ $isOvertime ? 'fa-business-time' : 'fa-hourglass-half' }} fa-3x"></i>
                                 </div>
                                 @if($isLate)
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger late-badge-pulse">
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger late-badge-pulse">
                                         LATE
                                     </span>
                                 @endif
@@ -94,18 +100,20 @@
                                     Working...
                                 @endif
                             </h4>
-                            
+
                             <p class="text-muted">
                                 You clocked in at <span class="fw-bold text-dark">{{ $checkInTime->format('h:i A') }}</span>
                                 @if($isLate)
-                                    <span class="text-danger small fw-bold ms-1 animate__animated animate__flash animate__slow animate__infinite">(Late)</span>
+                                    <span
+                                        class="text-danger small fw-bold ms-1 animate__animated animate__flash animate__slow animate__infinite">(Late)</span>
                                 @endif
                             </p>
                         </div>
-                        
+
                         <form action="{{ route('employee.attendance.checkOut') }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn {{ $isOvertime ? 'btn-grad-celebrate' : 'btn-warning' }} text-white btn-lg w-75 shadow-lg rounded-pill fw-bold position-relative overflow-hidden">
+                            <button type="submit"
+                                class="btn {{ $isOvertime ? 'btn-grad-celebrate' : 'btn-warning' }} text-white btn-lg w-75 shadow-lg rounded-pill fw-bold position-relative overflow-hidden">
                                 @if($isOvertime)
                                     <span class="position-absolute w-100 h-100 top-0 start-0 confetti-bg"></span>
                                 @endif
@@ -120,35 +128,74 @@
                                 background-size: 200% auto;
                                 border: none;
                             }
+
                             .btn-grad-celebrate:hover {
                                 background-position: right center;
                             }
+
                             @keyframes confetti {
-                                0% { background-position: 0 0; }
-                                100% { background-position: 100% 100%; }
+                                0% {
+                                    background-position: 0 0;
+                                }
+
+                                100% {
+                                    background-position: 100% 100%;
+                                }
                             }
-                            
+
                             /* Late Badge Pulse */
                             .late-badge-pulse {
                                 animation: late-pulse 2s infinite;
                             }
+
                             @keyframes late-pulse {
-                                0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); transform: translate(-50%, -50%) scale(1); }
-                                50% { transform: translate(-50%, -50%) scale(1.1); }
-                                70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); transform: translate(-50%, -50%) scale(1.1); }
-                                100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); transform: translate(-50%, -50%) scale(1); }
+                                0% {
+                                    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+                                    transform: translate(-50%, -50%) scale(1);
+                                }
+
+                                50% {
+                                    transform: translate(-50%, -50%) scale(1.1);
+                                }
+
+                                70% {
+                                    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+                                    transform: translate(-50%, -50%) scale(1.1);
+                                }
+
+                                100% {
+                                    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+                                    transform: translate(-50%, -50%) scale(1);
+                                }
                             }
 
                             /* Shake Icon for Late */
                             .shake-icon {
                                 animation: subtle-shake 4s infinite;
                             }
+
                             @keyframes subtle-shake {
-                                0%, 100% { transform: rotate(0deg); }
-                                2% { transform: rotate(-10deg); }
-                                4% { transform: rotate(10deg); }
-                                6% { transform: rotate(-10deg); }
-                                8% { transform: rotate(0deg); }
+
+                                0%,
+                                100% {
+                                    transform: rotate(0deg);
+                                }
+
+                                2% {
+                                    transform: rotate(-10deg);
+                                }
+
+                                4% {
+                                    transform: rotate(10deg);
+                                }
+
+                                6% {
+                                    transform: rotate(-10deg);
+                                }
+
+                                8% {
+                                    transform: rotate(0deg);
+                                }
                             }
                         </style>
                     @else
@@ -156,10 +203,11 @@
                             $outTime = \Carbon\Carbon::parse($todayAttendance->check_out);
                             $isEarly = $outTime->hour < 18; // Before 6 PM
                         @endphp
-                        
+
                         <div>
                             @if($isEarly)
-                                <div class="bg-warning bg-opacity-10 p-4 rounded-circle d-inline-block mb-3 text-warning animate__animated animate__pulse animate__infinite">
+                                <div
+                                    class="bg-warning bg-opacity-10 p-4 rounded-circle d-inline-block mb-3 text-warning animate__animated animate__pulse animate__infinite">
                                     <i class="fas fa-walking fa-3x"></i>
                                 </div>
                                 <h4 class="fw-bold text-warning">Leaving Early?</h4>
@@ -176,12 +224,14 @@
                                 <div>
                                     <small class="text-uppercase text-muted fw-bold">In Time</small>
                                     <div class="fw-bold fs-5">
-                                        {{ \Carbon\Carbon::parse($todayAttendance->check_in)->format('H:i') }}</div>
+                                        {{ \Carbon\Carbon::parse($todayAttendance->check_in)->format('H:i') }}
+                                    </div>
                                 </div>
                                 <div>
                                     <small class="text-uppercase text-muted fw-bold">Out Time</small>
                                     <div class="fw-bold fs-5">
-                                        {{ $outTime->format('H:i') }}</div>
+                                        {{ $outTime->format('H:i') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -192,11 +242,11 @@
                 <!-- Abstract shapes -->
                 <div class="position-absolute blur-orb-1"></div>
                 <div class="position-absolute blur-orb-2"></div>
-                
+
                 <style>
                     .blur-orb-1 {
-                        width: 180px; 
-                        height: 180px; 
+                        width: 180px;
+                        height: 180px;
                         border-radius: 50%;
                         background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.4));
                         filter: blur(40px);
@@ -206,9 +256,10 @@
                         z-index: 0;
                         animation: floatOne 8s ease-in-out infinite alternate;
                     }
+
                     .blur-orb-2 {
-                        width: 150px; 
-                        height: 150px; 
+                        width: 150px;
+                        height: 150px;
                         border-radius: 50%;
                         background: linear-gradient(135deg, rgba(236, 72, 153, 0.4), rgba(244, 63, 94, 0.4));
                         filter: blur(40px);
@@ -218,13 +269,25 @@
                         z-index: 0;
                         animation: floatTwo 10s ease-in-out infinite alternate;
                     }
+
                     @keyframes floatOne {
-                        0% { transform: translate(20%, -20%) rotate(0deg) scale(1); }
-                        100% { transform: translate(10%, -10%) rotate(20deg) scale(1.1); }
+                        0% {
+                            transform: translate(20%, -20%) rotate(0deg) scale(1);
+                        }
+
+                        100% {
+                            transform: translate(10%, -10%) rotate(20deg) scale(1.1);
+                        }
                     }
+
                     @keyframes floatTwo {
-                        0% { transform: translate(-20%, 20%) rotate(0deg) scale(1); }
-                        100% { transform: translate(-10%, 10%) rotate(-20deg) scale(1.2); }
+                        0% {
+                            transform: translate(-20%, 20%) rotate(0deg) scale(1);
+                        }
+
+                        100% {
+                            transform: translate(-10%, 10%) rotate(-20deg) scale(1.2);
+                        }
                     }
                 </style>
             </div>
@@ -235,16 +298,20 @@
             <!-- ... existing stats grid ... -->
             <div class="row g-4 h-100">
                 <div class="col-6">
-                    <div class="glass-card p-4 h-100 d-flex flex-column justify-content-center align-items-center text-center">
+                    <div
+                        class="glass-card p-4 h-100 d-flex flex-column justify-content-center align-items-center text-center">
                         <h1 class="display-4 fw-bold text-primary mb-1">
-                            {{ Auth::user()->leaves()->where('status', 'approved')->count() }}</h1>
+                            {{ Auth::user()->leaves()->where('status', 'approved')->count() }}
+                        </h1>
                         <span class="text-secondary fw-bold small text-uppercase">Leaves Approved</span>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="glass-card p-4 h-100 d-flex flex-column justify-content-center align-items-center text-center">
+                    <div
+                        class="glass-card p-4 h-100 d-flex flex-column justify-content-center align-items-center text-center">
                         <h1 class="display-4 fw-bold text-success mb-1">
-                            {{ Auth::user()->attendances()->where('status', 'present')->count() }}</h1>
+                            {{ Auth::user()->attendances()->where('status', 'present')->count() }}
+                        </h1>
                         <span class="text-secondary fw-bold small text-uppercase">Days Worked</span>
                     </div>
                 </div>
@@ -252,7 +319,8 @@
                     <div class="glass-card p-4 h-100 d-flex align-items-center">
                         <div class="flex-grow-1">
                             <h5 class="fw-bold mb-1">My Department</h5>
-                            <p class="text-muted mb-0">You are a key member of the <span class="fw-bold text-dark">{{ Auth::user()->employee->department }}</span> team.</p>
+                            <p class="text-muted mb-0">You are a key member of the <span
+                                    class="fw-bold text-dark">{{ Auth::user()->employee->department }}</span> team.</p>
                         </div>
                         <div class="bg-light p-3 rounded-circle text-primary">
                             <i class="fas fa-network-wired fa-lg"></i>
@@ -262,7 +330,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Upcoming Holidays & Leave Tracker Row -->
     <div class="row g-4 mb-5 animate__animated animate__fadeInUp delay-300">
         <!-- Holidays -->
@@ -270,22 +338,27 @@
             <h5 class="fw-bold mb-3 d-flex align-items-center">
                 <i class="fas fa-umbrella-beach text-info me-2"></i> Upcoming Holidays
             </h5>
-            
+
             @if(isset($upcomingHolidays) && count($upcomingHolidays) > 0)
-                <div class="glass-card mb-4 overflow-hidden">
-                    <div class="list-group list-group-flush bg-transparent" style="max-height: 300px; overflow-y: auto;">
+                <div class="glass-card h-100 overflow-hidden d-flex flex-column">
+                    <div class="list-group list-group-flush bg-transparent flex-grow-1"
+                        style="max-height: 300px; overflow-y: auto;">
                         @foreach($upcomingHolidays as $holiday)
                             <div class="list-group-item bg-transparent border-light d-flex align-items-center py-3">
-                                <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-3 text-center me-3" style="min-width: 60px;">
-                                    <span class="d-block small text-uppercase fw-bold">{{ \Carbon\Carbon::parse($holiday['date'])->format('M') }}</span>
-                                    <span class="h4 fw-bold mb-0">{{ \Carbon\Carbon::parse($holiday['date'])->format('d') }}</span>
+                                @php $hDate = \Carbon\Carbon::parse($holiday['date']); @endphp
+                                <div class="rounded-3 p-3 text-center me-3"
+                                    style="min-width: 60px; background-color: rgba(183, 116, 102, 0.15); color: #B77466;">
+                                    <span class="d-block small text-uppercase fw-bold">{{ $hDate->format('M') }}</span>
+                                    <span class="h4 fw-bold mb-0">{{ $hDate->format('d') }}</span>
                                 </div>
                                 <div class="flex-grow-1">
                                     <h6 class="fw-bold mb-0 text-dark">{{ $holiday['name'] }}</h6>
-                                    <small class="text-muted">{{ \Carbon\Carbon::parse($holiday['date'])->format('l') }}</small>
+                                    <small class="text-muted">{{ $hDate->format('l') }}</small>
                                 </div>
-                                @if(\Carbon\Carbon::parse($holiday['date'])->isToday())
+                                @if($hDate->isToday())
                                     <span class="badge bg-success rounded-pill px-3">Today</span>
+                                @elseif($hDate->lt(\Carbon\Carbon::today()))
+                                    <span class="badge bg-secondary rounded-pill px-3 text-white">Completed</span>
                                 @endif
                             </div>
                         @endforeach
@@ -318,19 +391,22 @@
                             <div>
                                 <div class="d-flex justify-content-between mb-1">
                                     <span class="fw-bold text-dark">{{ $type }} Leave</span>
-                                    <span class="small fw-bold text-muted">{{ $balance['used'] }} / {{ $balance['total'] }} Days</span>
+                                    <span class="small fw-bold text-muted">{{ $balance['used'] }} / {{ $balance['total'] }}
+                                        Days</span>
                                 </div>
                                 <div class="progress" style="height: 10px; border-radius: 20px;">
-                                    <div class="progress-bar bg-{{ $color }} progress-bar-striped progress-bar-animated" role="progressbar" 
-                                         style="width: {{ $percentage }}%" aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-{{ $color }} progress-bar-striped progress-bar-animated"
+                                        role="progressbar" style="width: {{ $percentage }}%" aria-valuenow="{{ $percentage }}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         @else
-                             <!-- Unpaid or Unlimited -->
+                            <!-- Unpaid or Unlimited -->
                         @endif
                     @endforeach
-                     <div class="text-center mt-2">
-                        <a href="{{ route('employee.leaves.create') }}" class="btn btn-sm btn-outline-primary rounded-pill px-4 fw-bold">
+                    <div class="text-center mt-2">
+                        <a href="{{ route('employee.leaves.create') }}"
+                            class="btn btn-sm btn-outline-primary rounded-pill px-4 fw-bold">
                             <i class="fas fa-plus me-1"></i> Apply Leave
                         </a>
                     </div>
@@ -373,13 +449,13 @@
     </div>
 
     {{-- The original live-clock script was here. It's now replaced by the new structure and script. --}}
-        </div>
+    </div>
     </div>
 
     {{-- Check-in Reminder Script --}}
     @if(!$hasCheckedIn)
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 // Initialize tooltips
                 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
                 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -404,10 +480,10 @@
 
                 // Logic: 08:55 AM (Production)
                 if (isWeekday && hours === 8 && minutes === 55) {
-                    
+
                     // Don't show if already snoozed or visible
                     const snoozeBtn = document.getElementById('snooze-btn');
-                    if(Swal.isVisible() || !snoozeBtn.classList.contains('d-none')) return;
+                    if (Swal.isVisible() || !snoozeBtn.classList.contains('d-none')) return;
 
                     fireCheckInReminder();
                 }
@@ -434,7 +510,7 @@
                     buttonsStyling: false
                 }).then((result) => {
                     const snoozeBtn = document.getElementById('snooze-btn');
-                    
+
                     if (result.isConfirmed) {
                         // User Agreed: Hide snooze, verify action
                         snoozeBtn.classList.add('d-none');
@@ -442,7 +518,7 @@
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                         // User Clicked Later: Show snooze icon
                         snoozeBtn.classList.remove('d-none');
-                        
+
                         // Optional: Tiny toast to confirm snooze
                         const Toast = Swal.mixin({
                             toast: true,

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Dayflow</title>
+    <title>Login - WorkHive</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 -->
@@ -182,7 +182,7 @@
         <div class="login-card animate__animated animate__zoomIn">
             <div class="text-center mb-5">
                 <div class="brand-logo animate__animated animate__bounceIn delay-1s">
-                    <i class="fas fa-layer-group fa-2x text-white"></i>
+                    <i class="fas fa-cubes fa-2x text-white"></i>
                 </div>
                 <h3 class="fw-bold text-white mb-1">Welcome Back</h3>
                 <p class="text-white-50">Sign in to access your dashboard</p>
@@ -195,7 +195,7 @@
                     <label class="form-label text-white-50 small fw-bold text-uppercase">Email Address</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                        <input type="email" name="email" class="form-control" placeholder="name@dayflow.com" required autofocus>
+                        <input type="email" name="email" class="form-control" placeholder="name@workhive.com" required autofocus>
                     </div>
                     @error('email')
                         <small class="text-danger mt-1 d-block">{{ $message }}</small>

@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'Dayflow') }} - HRMS</title>
+    <title>{{ config('app.name', 'WorkHive') }} - HRMS</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -30,14 +33,53 @@
     <style>
         :root {
             --sidebar-width: 280px;
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --dark: #0f172a;
-            --light: #f8fafc;
+            --primary: #9A8C98;      /* Lilac Ash - Navbar & Primary Actions */
+            --primary-dark: #4A4E69; /* Dusty Grape - Hover/Active */
+            --secondary: #C9ADA7;    /* Almond Silk - Accents */
+            --dark: #22223B;         /* Space Indigo - Text/Sidebar */
+            --light: #F2E9E4;        /* Seashell - Backgrounds */
+            
+            /* RGB Values for Opacity Utilities */
+            --primary-rgb: 154, 140, 152;
+            --secondary-rgb: 201, 173, 167;
+            --dark-rgb: 34, 34, 59;
+            --success-rgb: 25, 135, 84; 
+            --info-rgb: 13, 202, 240;
+            --warning-rgb: 255, 193, 7;
+            
+            --font-display: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
         }
 
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; }
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            font-weight: 500;
+        }
         
+        h1, h2, h3, h4, h5, h6, .navbar-brand {
+            font-family: var(--font-display);
+            letter-spacing: -0.025em;
+            font-weight: 700;
+        }
+
+        /* Fixed Background Image with Blur */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('{{ asset('img/bg.png') }}') no-repeat center center/cover;
+            filter: blur(15px); /* Strong blur as requested */
+            transform: scale(1.1); /* Prevent blurred edges */
+            z-index: -1;
+        }
+        
+        /* Sidebar & Layout Styles (Restored) */
         .sidebar {
             width: var(--sidebar-width, 280px);
             height: 100vh;
@@ -52,7 +94,7 @@
         }
 
         .sidebar-link {
-            color: #94a3b8;
+            color: rgba(255, 255, 255, 0.7);
             padding: 12px 20px;
             margin: 4px 12px;
             border-radius: 12px;
@@ -65,15 +107,15 @@
         }
 
         .sidebar-link:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: #f8fafc;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
             transform: translateX(5px);
         }
 
         .sidebar-link.active {
-            background: linear-gradient(90deg, rgba(99, 102, 241, 0.2), transparent);
-            color: #818cf8;
-            border-left: 3px solid #818cf8;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border-left: 3px solid #fff;
         }
         
         .sidebar-link i { width: 24px; margin-right: 12px; font-size: 1.1rem; flex-shrink: 0; }
@@ -91,11 +133,12 @@
             .main-content { margin-left: 0; }
         }
         
+        /* Navbar Links */
         .navbar-nav .nav-link {
-            color: #94a3b8 !important;
+            color: rgba(255, 255, 255, 0.8) !important;
             font-weight: 500;
-            padding: 10px 20px !important; /* Larger pill */
-            border-radius: 50px !important; /* Rounded pill */
+            padding: 10px 20px !important;
+            border-radius: 50px !important;
             transition: all 0.3s;
             display: flex;
             align-items: center;
@@ -103,15 +146,17 @@
         
         .navbar-nav .nav-link:hover {
             color: #fff !important;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
         }
         
+        /* Active State - Round Button Style */
         .navbar-nav .nav-link.active {
             color: #fff !important;
-            background: var(--primary);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-            font-weight: 600;
+            background: rgba(255, 255, 255, 0.25) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Glass Utilities Inline */
@@ -122,24 +167,48 @@
             border-radius: 16px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
+
+        /* Bootstrap Overrides for Custom Palette */
+        .text-primary { color: var(--primary) !important; }
+        
+        /* Fix for bg-opacity utilities */
+        .bg-primary { 
+            background-color: rgba(var(--primary-rgb), var(--bs-bg-opacity, 1)) !important; 
+        }
+        
+        .bg-dark { 
+            background-color: rgba(var(--dark-rgb), var(--bs-bg-opacity, 1)) !important; 
+        }
+        
+        .btn-primary { 
+            background-color: var(--primary); 
+            border-color: var(--primary); 
+        }
+        .btn-primary:hover { 
+            background-color: var(--primary-dark); 
+            border-color: var(--primary-dark); 
+        }
+        
+        .text-dark { color: var(--dark) !important; }
     </style>
 </head>
 <body>
 
     @auth
         <!-- Horizontal Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top glass-navbar border-bottom border-light border-opacity-10" style="background-color: #0f172a !important;">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top glass-navbar border-bottom border-light border-opacity-10" style="background-color: rgba(154, 140, 152, 0.85) !important; backdrop-filter: blur(12px);">
             <div class="container-fluid">
                 <!-- Brand -->
                 <a class="navbar-brand d-flex align-items-center gap-2" href="#">
                     <div class="bg-primary rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 35px; height: 35px;">
-                        <i class="fas fa-layer-group text-white"></i>
+                        <i class="fas fa-cubes text-white"></i>
                     </div>
-                    <div>
-                        <span class="fw-bold" style="letter-spacing: -0.5px;">Dayflow</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fw-bold" style="letter-spacing: -0.5px;">WorkHive</span>
                         @if(Auth::user()->role === 'admin')
-                            <span class="badg bg-light text-dark rounded-pill px-2 ms-2 small" style="font-size: 0.65rem; background: rgba(255,255,255,0.1); color: #94a3b8 !important;">HR</span>
-                        @endif                    </div>
+                            <span class="badge bg-light text-dark rounded-pill px-2 small shadow-sm" style="font-size: 0.65rem; background: rgba(255,255,255,0.2) !important; color: #fff !important;">HR</span>
+                        @endif
+                    </div>
                 </a>
 
                 <!-- Mobile Toggle -->
