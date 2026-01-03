@@ -161,9 +161,15 @@ class IndianDummyDataSeeder extends Seeder
             if ($date->isSunday())
                 continue;
 
-            // 8% Chance of being absent 
-            if (rand(1, 100) <= 8)
-                continue;
+            // Logic for TODAY: High presence (aiming for ~47/55)
+            if ($date->isToday()) {
+                if (rand(1, 100) <= 15)
+                    continue; // 15% chance absent today (resulting in ~85% present)
+            } else {
+                // Normal days: 8% Chance of being absent 
+                if (rand(1, 100) <= 8)
+                    continue;
+            }
 
             $status = 'present';
             $hourIn = 9;
@@ -191,6 +197,13 @@ class IndianDummyDataSeeder extends Seeder
                 $hourIn = 10;
                 $hourOut = 14;
             }
+
+            // For today, if it's currently working hours, checkout might be null or future
+            // But for simplicity in this dummy data, we'll just set it as if they checked out or will check out.
+            // Or correct logic: if today, check_out should be null if now < 18:00? 
+            // The user just wants "Mark Present", usually implies they are currently essentially "checked in".
+            // Let's leave check_out as is for simplicity, or we case on time.
+            // Let's keep it complete for "records" sake as requested "records everywhere".
 
             try {
                 Attendance::create([

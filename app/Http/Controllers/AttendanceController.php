@@ -9,20 +9,28 @@ use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
-    // Admin View: All attendance
+    // Admin View: All attendance (Grouped by Date or Filtered)
     public function adminIndex(Request $request)
     {
-        $query = Attendance::with('user');
-
         if ($request->has('date') && $request->date) {
-            $query->where('date', $request->date);
+            // Detailed View for a specific date
             $filterDate = $request->date;
-        } else {
-            $filterDate = null;
-        }
+            $attendances = Attendance::with('user')
+                ->where('date', $filterDate)
+                ->latest()
+                ->get(); // Show all records for the selected date without pagination
 
-        $attendances = $query->latest()->paginate(20);
-        return view('admin.attendance.index', compact('attendances', 'filterDate'));
+            return view('admin.attendance.index', compact('attendances', 'filterDate'));
+        } else {
+            // Default View: Grouped by Date
+            $attendanceDates = Attendance::select('date')
+                ->selectRaw('count(*) as total_present')
+                ->groupBy('date')
+                ->orderBy('date', 'desc')
+                ->paginate(10);
+
+            return view('admin.attendance.index', compact('attendanceDates'));
+        }
     }
 
     // Employee View: My attendance
