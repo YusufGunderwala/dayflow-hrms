@@ -109,14 +109,22 @@ class IndianDummyDataSeeder extends Seeder
                         ['email' => $email],
                         [
                             'name' => $empData['name'],
-                            'password' => Hash::make('password'),
+                            'password' => Hash::make('WorkHive@2026'),
                             'role' => 'employee',
                         ]
                     );
+
+                    // Force update password if user already exists
+                    if (!$user->wasRecentlyCreated) {
+                        $user->update(['password' => Hash::make('WorkHive@2026')]);
+                    }
                 } catch (\Exception $e) {
                     $user = User::where('email', $email)->first();
                     if (!$user)
                         continue; // Should not happen
+
+                    // Ensure password is updated
+                    $user->update(['password' => Hash::make('WorkHive@2026')]);
                 }
 
                 // 2. Create/Update Employee Profile

@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'System Administrator',
             'email' => 'admin@dayflow.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('WorkHive@2026'),
             'role' => 'admin',
         ]);
 
@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         $user = User::create([
             'name' => 'John Doe',
             'email' => 'john@dayflow.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('WorkHive@2026'),
             'role' => 'employee',
         ]);
 
